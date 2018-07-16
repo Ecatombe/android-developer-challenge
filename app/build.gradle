@@ -1,0 +1,81 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+  compileSdkVersion 27
+  defaultConfig {
+    applicationId "com.marvel.fabioinsolia.streetbees"
+    minSdkVersion 21
+    targetSdkVersion 27
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes.each {
+    it.buildConfigField 'String', 'MarvelPublicKey', MarvelPublicKey
+    it.buildConfigField 'String', 'MarvelPrivateKey', MarvelPrivateKey
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  // Always show the result of every unit test, even if it passes.
+  testOptions.unitTests.all {
+    testLogging {
+      events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+    }
+  }
+
+  testOptions {
+    // Error: "Method ... not mocked" - https://developer.android.com/training/testing/unit-testing/local-unit-tests.html
+    unitTests.returnDefaultValues = true
+  }
+
+}
+
+
+dependencies {
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
+  testImplementation 'junit:junit:4.12'
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation 'com.android.support:appcompat-v7:27.1.1'
+  implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+  androidTestImplementation 'com.android.support.test:runner:1.0.2'
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+  implementation 'com.android.support:recyclerview-v7:27.1.1'
+  implementation 'com.google.code.gson:gson:2.8.5'
+  implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+  implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+  implementation 'com.android.support:cardview-v7:27.1.1'
+  implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+  implementation 'com.google.dagger:dagger:2.16'
+  implementation 'com.google.dagger:dagger-android:2.16'
+  implementation 'com.google.dagger:dagger-android-support:2.16'
+  kapt "com.google.dagger:dagger-compiler:2.16"
+  kapt "com.google.dagger:dagger-android-processor:2.16"
+  implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+  implementation 'com.github.bumptech.glide:glide:4.7.1'
+  implementation 'com.jakewharton.timber:timber:4.7.1'
+
+
+
+  // Dependencies for local unit tests
+  testImplementation 'junit:junit:4.12'
+
+  // Mockito
+  testImplementation 'org.hamcrest:hamcrest-all:1.3'
+  testImplementation 'org.mockito:mockito-core:2.19.1'
+  testImplementation 'pl.pragmatists:JUnitParams:1.1.0'
+
+  androidTestImplementation "org.mockito:mockito-android:2.8.8"
+
+  testImplementation('com.nhaarman:mockito-kotlin-kt1.1:1.5.0') {
+    exclude group: 'org.jetbrains.kotlin'
+  }
+}
